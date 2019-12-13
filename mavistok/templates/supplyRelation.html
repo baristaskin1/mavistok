@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% from "includes/formhelpers.html" import render_field %}
+
+    <h3>Tedarik İlişkisi</h3>
+    <hr>  
+    <form method="post">
+          {{render_field(form.raw_drop)}}
+          {{render_field(form.supp_drop)}}
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <button type="reset" class="btn btn-secondary">Temizle</button><br><br>
+    </form>
+
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+        <th scope="col">İlişki Kodu</th>
+        <th scope="col">Ham Madde Kodu</th>
+        <th scope="col">Ham Madde Adı</th>
+        <th scope="col">Tedarikçi Kodu</th>
+        <th scope="col">Tedarikçi Adı</th>
+        <th scope="col">Eklenme Zamanı</th>
+        <th scope="col"></th>
+        </tr>
+        </thead>
+
+  {% for supplyRelation in supplyRelation  %}
+    <tr>
+    <th scope="row">{{supplyRelation.iliski_kod}}</th>
+      <td>{{supplyRelation.ham_madde_kodu}}</td>
+      <td>{{supplyRelation.ham_madde_adi}}</td>
+      <td>{{supplyRelation.tedarikci_kodu}}</td>
+      <td>{{supplyRelation.tedarikci_adi}}</td>
+      <td>{{supplyRelation.eklenme_zamani}}</td>
+      <td><button class = "btn btn-danger" type="button" data-toggle="modal" data-target="#{{supplyRelation.iliski_kod}}">Sil</a></td>
+    
+
+<!-- The Modal -->
+    <div class="modal" id={{supplyRelation.iliski_kod}}>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body text-center mb-5">
+            <h1>Silmek İstediğinize Emin Misiniz?</h1>
+            <p>Silmeden Önce Bu Tanımın Kullanılmadığından Emin Olun.{{supplyRelation.iliski_kod}}</p>
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary btn-lg mr-2 rounded-lg" data-dismiss="modal">İptal</button>
+              <form action="{{url_for('deleteSupRelation', id=supplyRelation.iliski_kod)}}" method="post">
+                <input type="submit" value="Sil" class="btn btn-danger" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock body %} 

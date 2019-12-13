@@ -1,0 +1,106 @@
+bağlı dropdownlar için 
+<!--
+    <script type="text/javascript">
+        $("#select_county").change(function() {
+            $.ajax({
+                type: "POST",
+                url: "{{ url_for('select_county') }}",
+                data: {
+                    county: $("#select_county").val()
+                },
+                success: function(data) {
+                    $("#select_city").html(data);
+                }
+            });
+        });
+    </script>
+-->
+
+{% extends "layout.html"%}
+{% block body %}
+{% from "includes/formhelpers.html" import render_field %}
+
+    <h3>Ham Madde Tanımları</h3>
+    <hr>  
+    <form method="post">
+        {{ render_field(form.raw_name) }}
+        {{ render_field(form.comment) }}
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <button type="reset" class="btn btn-secondary">Temizle</button><br><br>
+    
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Ham Madde Kodu</th>
+      <th scope="col">Ham Madde Adı</th>
+      <th scope="col">Açıklama</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for raw_material in raw_material  %}
+    <tr>
+    <th scope="row">{{raw_material.ham_madde_kodu}}</th>
+      <td>{{raw_material.ham_madde_adi}}</td>
+      <td>{{raw_material.aciklama}}</td>
+      <td><button class = "btn btn-danger" type="button" data-toggle="modal" data-target="#eminMisin">Sil</a></td>
+
+
+<!-- The Modal -->
+    <div class="modal" id="eminMisin">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body text-center mb-5">
+            <h1>Silmek İstediğinize Emin Misiniz?</h1>
+            <p>Silmeden Önce Bu Tanımın Kullanılmadığından Emin Olun.</p>
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary btn-lg mr-2 rounded-lg" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-danger btn-lg rounded-lg">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </tr>
+    {% endfor %}
+    
+  </tbody>
+</table>
+    
+{% endblock body%}
+
+-------------------------------
+              <a href="/delete_raw/{{raw_material.ham_madde_kodu}}" class="btn btn-danger btn-lg rounded-lg">Sil2</button>
+
+------------------------------------------------------------------------------------------------
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- Complete JavaScript Bundle -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+    <!-- Complete JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Complete CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+

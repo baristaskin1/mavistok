@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% from "includes/formhelpers.html" import render_field %}
+    <h3>Satın Alma</h3>
+    <hr>
+        <form method="post">
+          {{render_field(form.payment_type_id)}}
+          {{render_field(form.related_entry_id)}}
+          {{render_field(form.amount)}}
+          {{render_field(form.payment_date)}}
+          {{render_field(form.comment)}}
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <button type="reset" class="btn btn-secondary">Temizle</button><br><br>
+    </form>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+        <th scope="col">Ödeme ID</th> <!-- buraları ekle-->
+        <th scope="col">Ödeme Tipi Adı</th>
+        <th scope="col">Ödeme Tipi Kodu</th>
+        <th scope="col">İlişkili İşlem ID</th>
+        <th scope="col">Tutar</th>
+        <th scope="col">Kayıt Tarihi</th>
+        <th scope="col">Ödeme Tarihi</th>
+        <th scope="col">Açıklama</th>
+        <th scope="col"></th>
+        </tr>
+        </thead>
+
+  {% for payment in payment  %}
+    <tr>
+    <th scope="row">{{payment.odeme_id}}</th>
+        <td>{{payment.odeme_tipi_adi}}</td>
+        <td>{{payment.odeme_tipi_kodu}}</td>
+        <td>{{payment.iliskili_islem_id}}</td>
+        <td>{{payment.tutar}}</td>
+        <td>{{payment.tarih_kayit}}</td>
+        <td>{{payment.tarih_odeme}}</td>
+        <td>{{payment.aciklama}}</td>
+
+        <td><button class = "btn btn-danger" type="button" data-toggle="modal" data-target="#{{payment.odeme_id}}">Sil</a></td>
+    
+
+
+<!-- The Modal -->
+    <div class="modal" id={{payment.odeme_id}}>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">�</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body text-center mb-5">
+            <h1>Silmek ?stedi?inize Emin Misiniz?</h1>
+            <p>Silmeden �nce Bu Tan?m?n Kullan?lmad???ndan Emin Olun.{{payment.odeme_id}}</p>
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary btn-lg mr-2 rounded-lg" data-dismiss="modal">İptal</button>
+              <form action="{{url_for('stockEdit', id=payment.odeme_id)}}" method="post">
+                <input type="submit" value="D�zenle" class="btn btn-danger" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock body %} 

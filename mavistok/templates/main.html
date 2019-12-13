@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% from "includes/formhelpers.html" import render_field %}
+    <h3>Mavi Giriş</h3>
+    <form method = "post" >
+
+
+    <a class="btn btn-primary" href="/definitions" role="button">Tanımlar</a> <br><br>
+    <a class="btn btn-primary" href="/purchasing" role="button">Satın Alma</a> <br><br>
+    <a class="btn btn-primary" href="/production" role="button">Üretim</a> <br><br>
+    <a class="btn btn-primary" href="/sales" role="button">Satış</a> <br><br>
+    <a class="btn btn-primary" href="/payment" role="button">Ödemeler</a> <br><br>
+    
+        
+    </form>
+{% endblock body %}

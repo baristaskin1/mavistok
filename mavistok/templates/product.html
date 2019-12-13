@@ -1,0 +1,61 @@
+{% extends "layout.html"%}
+{% block body %}
+{% from "includes/formhelpers.html" import render_field %}
+
+    <h3>Ürün Tanımları</h3>
+    <hr>
+    <form method="post">
+        {{ render_field(form.prod_name) }}
+        {{ render_field(form.comment) }}
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <button type="reset" class="btn btn-secondary">Temizle</button><br><br>
+    </form>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Ürün Kodu</th>
+      <th scope="col">Ürün Adı</th>
+      <th scope="col">Açıklama</th>
+      <th scope="col">Ekleme Zamanı</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product in product  %}
+    <tr>
+    <th scope="row">{{product.urun_kodu}}</th>
+      <td>{{product.urun_adi}}</td>
+      <td>{{product.aciklama}}</td>
+      <td>{{product.eklenme_zamani}}</td>
+      <td><button class = "btn btn-danger" type="button" data-toggle="modal" data-target="#{{product.urun_kodu}}">Sil</a></td>
+
+
+<!-- The Modal -->
+    <div class="modal" id={{product.urun_kodu}}>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body text-center mb-5">
+            <h1>Silmek İstediğinize Emin Misiniz?</h1>
+            <p>Silmeden Önce Bu Tanımın Kullanılmadığından Emin Olun.{{product.urun_kodu}}</p>
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary btn-lg mr-2 rounded-lg" data-dismiss="modal">İptal</button>
+              <form action="{{url_for('deleteProduct', id=product.urun_kodu)}}" method="post">
+                <input type="submit" value="Sil" class="btn btn-danger" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+
+{% endblock body%}

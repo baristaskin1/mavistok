@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% from "includes/formhelpers.html" import render_field %}
+    <h3>Satın Alma</h3>
+    <hr>
+        <form method="post">
+          {{render_field(form.raw_name)}}
+          {{render_field(form.supplier_name)}}
+          {{render_field(form.unit)}}
+          {{render_field(form.quantity)}}
+          {{render_field(form.purchase_date)}}
+          {{render_field(form.price)}}
+          {{render_field(form.comment)}}
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <button type="reset" class="btn btn-secondary">Temizle</button><br><br>
+    </form>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+        <th scope="col">Stok ID</th>
+        <th scope="col">Tedarikçi Kodu</th>
+        <th scope="col">Tedarikçi Adı</th>
+        <th scope="col">Ham Madde Kodu</th>
+        <th scope="col">Ham Madde Adı</th>
+        <th scope="col">Birim</th>
+        <th scope="col">Adet</th>
+        <th scope="col">Eklenme Zamanı</th>
+        <th scope="col">Alım Tarihi</th>
+        <th scope="col">Fiyat</th>
+        <th scope="col">Açıklama</th>
+        <th scope="col">Kayıt Tipi</th>
+
+        <th scope="col"></th>
+        </tr>
+        </thead>
+
+  {% for stock in stock  %}
+    <tr>
+    <th scope="row">{{stock.hm_stok_id}}</th>
+        <td>{{stock.tedarikci_kodu}}</td>
+        <td>{{stock.tedarikci_adi}}</td>
+        <td>{{stock.ham_madde_kodu}}</td>
+        <td>{{stock.ham_madde_adi}}</td>
+        <td>{{stock.birim}}</td>
+        <td>{{stock.adet}}</td>
+        <td>{{stock.tarih_kayit}}</td>
+        <td>{{stock.tarih_alim}}</td>
+        <td>{{stock.fiyat}}</td>
+        <td>{{stock.aciklama}}</td>
+        <td>{{stock.kayit_tipi}}</td>
+
+        <td><button class = "btn btn-danger" type="button" data-toggle="modal" data-target="#{{stock.hm_stok_id}}">Sil</a></td>
+    
+
+
+<!-- The Modal -->
+    <div class="modal" id={{stock.hm_stok_id}}>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">�</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body text-center mb-5">
+            <h1>Silmek ?stedi?inize Emin Misiniz?</h1>
+            <p>Silmeden �nce Bu Tan?m?n Kullan?lmad???ndan Emin Olun.{{stock.hm_stok_id}}</p>
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary btn-lg mr-2 rounded-lg" data-dismiss="modal">?ptal</button>
+              <form action="{{url_for('stockEdit', id=stock.hm_stok_id)}}" method="post">
+                <input type="submit" value="D�zenle" class="btn btn-danger" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock body %} 

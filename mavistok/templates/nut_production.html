@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% from "includes/formhelpers.html" import render_field %}
+    <h3>Fındık Üretimi</h3>
+    <hr><br><br>
+        <form method="post">
+    <h5>Ham Madde</h5 >
+    <hr><br>
+          Fındık <br><br>
+          {{render_field(form.nut_unit)}}
+          {{render_field(form.nut_quantity)}}<br><br>
+          Hurma 
+          {{render_field(form.hurma_unit)}}
+          {{render_field(form.hurma_quantity)}}
+          <hr><br><br>
+    <h5>Üretilen Fındık Ezmesi</h5>
+    <hr>
+          <br>
+          {{render_field(form.product_quantity1)}}<br>
+          {{render_field(form.product_quantity2)}}<br>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <button type="reset" class="btn btn-secondary">Temizle</button><br><br>
+    </form>
+
+    <table class="table table-hover" name="Ürün">
+        <thead>
+        <tr>
+        <th scope="col">Stok ID</th>
+        <th scope="col">Tedarikçi Kodu</th>
+        <th scope="col">Tedarikçi Adı</th>
+        <th scope="col">Ham Madde Kodu</th>
+        <th scope="col">Ham Madde Adı</th>
+        <th scope="col">Birim</th>
+        <th scope="col">Adet</th>
+        <th scope="col">Eklenme Zamanı</th>
+        <th scope="col">Alım Tarihi</th>
+        <th scope="col">Fiyat</th>
+        <th scope="col">Açıklama</th>
+        <th scope="col">Kayıt Tipi</th>
+
+        <th scope="col"></th>
+        </tr>
+        </thead>
+
+  {% for prod_hist in prod_hist  %}
+    <tr>
+    <th scope="row">{{prod_hist.urun_stok_id}}</th>
+        <td>{{prod_hist.urun_kodu}}</td>
+        <td>{{prod_hist.urun_adi}}</td>
+        <td>{{prod_hist.satis_kanali_kodu}}</td>
+        <td>{{prod_hist.satis_kanali_adi}}</td>
+        <td>{{prod_hist.birim}}</td>
+        <td>{{prod_hist.adet}}</td>
+        <td>{{prod_hist.tarih_kayit}}</td>
+        <td>{{prod_hist.tarih_alim}}</td>
+        <td>{{prod_hist.fiyat}}</td>
+        <td>{{prod_hist.aciklama}}</td>
+        <td>{{prod_hist.kayit_tipi}}</td>
+        <td>{{prod_hist.kayit_id}}</td>
+
+        <td><button class = "btn btn-danger" type="button" data-toggle="modal" data-target="#{{prod_hist.urun_stok_id}}">Sil</a></td>
+    
+
+
+<!-- The Modal -->
+    <div class="modal" id={{prod_hist.urun_stok_id}}>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">�</button>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body text-center mb-5">
+            <h1>Silmek İstediğinize Emin Misiniz?</h1>
+            <p>Silmeden Önce Bu Tanımın Kullanılmadığından Emin Olun.{{prod_hist.urun_stok_id}}</p>
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary btn-lg mr-2 rounded-lg" data-dismiss="modal">İptal</button>
+              <form action="{{url_for('stockEdit', id=prod_hist.urun_stok_id)}}" method="post">
+                <input type="submit" value="Düzenle" class="btn btn-danger" />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </tr>
+    {% endfor %}
+    </table>
+{% endblock body %} 
